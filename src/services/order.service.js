@@ -4,11 +4,15 @@ const { getOrderInclude, getOrderByIdInclude } = require("../utils/includes");
 
 const getAll = async (query) => {
   try {
-    let { limit, p } = query;
+    let { limit, p, sortBy, sortType } = query;
     let items;
     let count = 0;
     let resData;
-    let option = { nest: true, include: getOrderInclude() };
+    let option = {
+      nest: true,
+      include: getOrderInclude(),
+      order: [[sortBy || "id", sortType || "asc"]],
+    };
     if (limit) {
       option.limit = parseInt(limit);
     }

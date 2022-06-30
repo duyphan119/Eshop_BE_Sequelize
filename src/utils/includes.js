@@ -38,6 +38,11 @@ const getGroupProductInclude = () => {
         },
       ],
     },
+    {
+      model: db.ProductDetail,
+      as: "details",
+      attributes: ["avatar"],
+    },
   ];
 };
 
@@ -111,6 +116,16 @@ const getAllProductInclude = (slug = null) => {
               as: "groupCategory",
             },
           ],
+        },
+        {
+          model: db.Discount,
+          as: "discounts",
+          required: false,
+          where: {
+            end: {
+              [Op.gt]: new Date().toISOString(),
+            },
+          },
         },
         {
           model: db.Product,

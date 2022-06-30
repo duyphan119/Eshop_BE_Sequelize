@@ -36,6 +36,10 @@ const getAll = async (query) => {
 const create = async (body) => {
   try {
     let item = await db.Coupon.create(body);
+    const users = await db.User.findAll({ attributes: ["id"] });
+    await db.UserCoupon.bulkCreate(
+      users.map((el) => ({ userId: el.id, couponId: item.id }))
+    );
     return { status: 200, data: { item } };
   } catch (error) {
     console.log(error);
